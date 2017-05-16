@@ -5,7 +5,7 @@ import java.math.BigInteger;
 /**
  * Created by dr186049 on 5/12/2017.
  */
-public class IntegerUtils {
+public class IntegerBoundaries {
 
     public static void main(String[] args) {
         int riskyInt = Integer.MAX_VALUE-1;
