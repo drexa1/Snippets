@@ -23,7 +23,7 @@ class Producer<T> {
         try {
             final T item = supplier.get();
             queue.put(item);
-            System.out.println(this.name + " produced item: " + item);
+            System.out.println(this.name + " produced item: " + item + "(queue size: " + queue.size() + ")");
             MILLISECONDS.sleep(900);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -41,7 +41,7 @@ class Consumer<T>{
     public void consume() {
         try {
             T item = queue.take();
-            System.out.println(this.name + " consumed item: " + item);
+            System.out.println(this.name + " consumed item: " + item + "(queue size: " + queue.size() + ")");
             MILLISECONDS.sleep(1250);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -51,7 +51,7 @@ class Consumer<T>{
 
 public class ProducerConsumer {
 
-    private static final int MAX_CAPACITY = 500;
+    private static final int MAX_CAPACITY = 50;
     private static final BlockingQueue<String> queue = new ArrayBlockingQueue<>(MAX_CAPACITY);
 
     public static void main(String args[]) {
@@ -72,19 +72,19 @@ public class ProducerConsumer {
     private static void startProducer(Producer producer) {
         final AtomicInteger id = new AtomicInteger();
         final Supplier<String> supplier = () -> "Item" + id.incrementAndGet();
-        while (queue.size() < MAX_CAPACITY) {
             new Thread(() -> {
-                producer.produce(supplier);
+                while (queue.size() < MAX_CAPACITY) {
+                    producer.produce(supplier);
+                }
             }).start();
-        }
     }
 
     private static void startConsumer(Consumer consumer) {
-        while (!queue.isEmpty()) {
-            new Thread(() -> {
-                //TODO
+        new Thread(() -> {
+            while (!queue.isEmpty()) {
                 consumer.consume();
-            }).start();
-        }
+            }
+        }).start();
     }
+
 }
