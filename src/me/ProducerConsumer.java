@@ -1,8 +1,9 @@
 package me;
 
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
@@ -20,13 +21,16 @@ class Producer<T> {
         this.queue = queue;
     }
     public void produce(Supplier<T> supplier) {
-        try {
-            final T item = supplier.get();
-            queue.put(item);
-            System.out.println(this.name + " produced item: " + item + "(queue size: " + queue.size() + ")");
-            MILLISECONDS.sleep(900);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        while(true) {
+            try {
+                final T item = supplier.get();
+                queue.put(item);
+                System.out.println(this.name + " produced item: " + item + " (queue size: " + queue.size() + ")");
+                int delay = 1000 + (new Random()).nextInt((1000) + 1);
+                MILLISECONDS.sleep(delay);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
@@ -39,51 +43,51 @@ class Consumer<T>{
         this.queue = queue;
     }
     public void consume() {
-        try {
-            T item = queue.take();
-            System.out.println(this.name + " consumed item: " + item + "(queue size: " + queue.size() + ")");
-            MILLISECONDS.sleep(1250);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        while(true) {
+            try {
+                T item = queue.take();
+                System.out.println(this.name + " consumed item: " + item + " (queue size: " + queue.size() + ")");
+                int delay = 1000 + (new Random()).nextInt((1000) + 1);
+                MILLISECONDS.sleep(delay);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
 
 public class ProducerConsumer {
 
-    private static final int MAX_CAPACITY = 50;
-    private static final BlockingQueue<String> queue = new ArrayBlockingQueue<>(MAX_CAPACITY);
+    private final int MAX_CAPACITY = 50;
+    private final BlockingQueue<String> queue = new ArrayBlockingQueue<>(MAX_CAPACITY);
 
-    public static void main(String args[]) {
+    private Set<Producer> producers;
+    private Set<Consumer> consumers;
 
-        final Producer<String> producer1 = new Producer<String>("p1", queue);
-        final Producer<String> producer2 = new Producer<String>("p2", queue);
-        final Producer<String> producer3 = new Producer<String>("p3", queue);
-        startProducer(producer1);
-        startProducer(producer2);
-        startProducer(producer3);
-
-        final Consumer<String> consumer1 = new Consumer<String>("c1", queue);
-        final Consumer<String> consumer2 = new Consumer<String>("c2", queue);
-        startConsumer(consumer1);
-        startConsumer(consumer2);
+    public ProducerConsumer(Set<Producer> producers, Set<Consumer> consumers) {
+        for(Producer producer: producers) {
+            startProducer(producer);
+        }
+        for(Consumer consumer: consumers) {
+            startConsumer(consumer);
+        }
     }
 
-    private static void startProducer(Producer producer) {
-        final AtomicInteger id = new AtomicInteger();
-        final Supplier<String> supplier = () -> "Item" + id.incrementAndGet();
+    private void startProducer(Producer producer) {
             new Thread(() -> {
-                while (queue.size() < MAX_CAPACITY) {
-                    producer.produce(supplier);
-                }
+                String threadName = Thread.currentThread().getName();
+                System.out.println("Created new Producer " + threadName);
+                final AtomicInteger id = new AtomicInteger();
+                final Supplier<String> supplier = () -> "Item" + id.incrementAndGet();
+                producer.produce(supplier);
             }).start();
     }
 
-    private static void startConsumer(Consumer consumer) {
+    private void startConsumer(Consumer consumer) {
         new Thread(() -> {
-            while (!queue.isEmpty()) {
-                consumer.consume();
-            }
+            String threadName = Thread.currentThread().getName();
+            System.out.println("Created new Consumer " + threadName);
+            consumer.consume();
         }).start();
     }
 
