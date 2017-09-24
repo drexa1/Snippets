@@ -1,10 +1,9 @@
 package me;
 
 import org.junit.Test;
-import org.testng.collections.Sets;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -32,16 +31,16 @@ public class ProducerConsumerTest {
 
     @Test
     public void manyProducersTest() throws InterruptedException {
-        Set<Producer> producers = Sets.newHashSet(Arrays.asList(p1, p2, p3, p4));
-        Set<Consumer> consumers = Sets.newHashSet(Arrays.asList(c1, c2));
+        List<Producer> producers = Arrays.asList(p1, p2, p3, p4);
+        List<Consumer> consumers = Arrays.asList(c1, c2);
         pc = new ProducerConsumer(producers, consumers);
         Thread.sleep(Long.MAX_VALUE);
     } // mostly full queue
 
     @Test
     public void manyConsumersTest() throws InterruptedException {
-        Set<Producer> producers = Sets.newHashSet(Arrays.asList(p1, p2));
-        Set<Consumer> consumers = Sets.newHashSet(Arrays.asList(c1, c2, c3, c4));
+        List<Producer> producers = Arrays.asList(p1, p2);
+        List<Consumer> consumers = Arrays.asList(c1, c2, c3, c4);
         pc = new ProducerConsumer(producers, consumers);
         Thread.sleep(Long.MAX_VALUE);
     } // mostly empty queue
