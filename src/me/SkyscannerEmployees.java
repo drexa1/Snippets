@@ -8,16 +8,10 @@ public class SkyscannerEmployees {
     //private static BinaryTree<String> bt = new Solution.BinaryTree<>();
     private static List<String[]> relations = new ArrayList<String[]>();
 
-    private static TreeMap<String, Integer> tree = new TreeMap<String, Integer>(new Comparator<Integer>() {
-        @Override
-        public int compare(String key1, String key2) {
-            return tree.get(key2).compareTo(tree.get(key1));
-        }
-    });
-
-    private static Integer level = 1;
+    private static TreeMap<String, Integer> tree = new TreeMap<String, Integer>();
 
     public static void main(String[] args) {
+
         readInput();
 
         String boss = relations.get(0)[0];
