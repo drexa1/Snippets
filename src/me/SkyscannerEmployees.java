@@ -1,12 +1,6 @@
 package me;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SkyscannerEmployees {
@@ -14,7 +8,12 @@ public class SkyscannerEmployees {
     //private static BinaryTree<String> bt = new Solution.BinaryTree<>();
     private static List<String[]> relations = new ArrayList<String[]>();
 
-    private static TreeMap<String, Integer> tree = new TreeMap<String, Integer>();
+    private static TreeMap<String, Integer> tree = new TreeMap<String, Integer>(new Comparator<Integer>() {
+        @Override
+        public int compare(String key1, String key2) {
+            return tree.get(key2).compareTo(tree.get(key1));
+        }
+    });
     private static Integer level = 1;
 
     public static void main(String[] args) {
