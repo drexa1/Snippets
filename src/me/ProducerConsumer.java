@@ -1,7 +1,7 @@
 package me;
 
+import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,10 +61,10 @@ public class ProducerConsumer {
     private final int MAX_CAPACITY = 50;
     private final BlockingQueue<String> queue = new ArrayBlockingQueue<>(MAX_CAPACITY);
 
-    private Set<Producer> producers;
-    private Set<Consumer> consumers;
+    private List<Producer> producers;
+    private List<Consumer> consumers;
 
-    public ProducerConsumer(Set<Producer> producers, Set<Consumer> consumers) {
+    public ProducerConsumer(List<Producer> producers, List<Consumer> consumers) {
         for(Producer producer: producers) {
             startProducer(producer);
         }
