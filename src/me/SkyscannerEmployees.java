@@ -14,6 +14,7 @@ public class SkyscannerEmployees {
             return tree.get(key2).compareTo(tree.get(key1));
         }
     });
+
     private static Integer level = 1;
 
     public static void main(String[] args) {
