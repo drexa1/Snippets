@@ -18,18 +18,18 @@ public class Dijkstra {
         Vertex R = new Vertex("R");
         Vertex Z = new Vertex("Z");
 
-        // set edges and weights
-        A.adjacencies = new Edge[]{ new Edge(M, 8) };
-        B.adjacencies = new Edge[]{ new Edge(D, 11) };
-        D.adjacencies = new Edge[]{ new Edge(B, 11) };
-        F.adjacencies = new Edge[]{ new Edge(K, 23) };
-        K.adjacencies = new Edge[]{ new Edge(O, 40) };
-        J.adjacencies = new Edge[]{ new Edge(K, 25) };
-        M.adjacencies = new Edge[]{ new Edge(R, 8) };
-        O.adjacencies = new Edge[]{ new Edge(K, 40) };
-        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
-        R.adjacencies = new Edge[]{ new Edge(P, 15) };
-        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
+        // set edges
+        A.adjacencies = new Edge[]{new Edge(M, 8)};
+        B.adjacencies = new Edge[]{new Edge(D, 11)};
+        D.adjacencies = new Edge[]{new Edge(B, 11)};
+        F.adjacencies = new Edge[]{new Edge(K, 23)};
+        K.adjacencies = new Edge[]{new Edge(O, 40)};
+        J.adjacencies = new Edge[]{new Edge(K, 25)};
+        M.adjacencies = new Edge[]{new Edge(R, 8)};
+        O.adjacencies = new Edge[]{new Edge(K, 40)};
+        P.adjacencies = new Edge[]{new Edge(Z, 18)};
+        R.adjacencies = new Edge[]{new Edge(P, 15)};
+        Z.adjacencies = new Edge[]{new Edge(P, 18)};
 
         long startTime = System.nanoTime();
         compute(A);
@@ -87,7 +87,6 @@ public class Dijkstra {
             }
         }
     }
-
 
     public static List<Vertex> getShortestPathTo(Vertex target) {
         List<Vertex> path = new ArrayList<Vertex>();
