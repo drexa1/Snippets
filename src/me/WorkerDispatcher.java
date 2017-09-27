@@ -1,4 +1,4 @@
-package wallapop;
+package me;
 
 import java.util.ArrayList;
 import java.util.HashMap;
