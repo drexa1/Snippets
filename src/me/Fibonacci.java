@@ -29,15 +29,6 @@ public class Fibonacci {
         return number < FIBONACCI_LIST.size();
     }
 
-    private static Map<Integer, Long> memo = new HashMap<>();
-    static {
-        memo.put(0,0L); //fibonacci(0)
-        memo.put(1,1L); //fibonacci(1)
-    }
-    public Long fibonacci8(final int x) {
-        return memo.computeIfAbsent(x, n -> Math.addExact(fibonacci8(n-1), fibonacci8(n-2)));
-    }
-
     public BigInteger iterFibonacci(int n) {
         if (n == 0) return BigInteger.ZERO;
         if (n == 1) return BigInteger.ONE;
@@ -83,4 +74,12 @@ public class Fibonacci {
         }
     }
 
+    private static Map<Integer, Long> memo = new HashMap<>();
+    static {
+        memo.put(0,0L); //fibonacci(0)
+        memo.put(1,1L); //fibonacci(1)
+    }
+    public Long fibonacci8(final int x) {
+        return memo.computeIfAbsent(x, n -> Math.addExact(fibonacci8(n-1), fibonacci8(n-2)));
+    }
 }
