@@ -24,7 +24,7 @@ import java.time.Instant;
 /**
  * @author diego.ruiz
  */
-public class CarAdProcessor {
+public class CarAdStreamProcessor {
 
     public static void main(String args[]) throws Exception {
 
@@ -35,7 +35,7 @@ public class CarAdProcessor {
         env.getConfig().setParallelism(params.getInt("parallelism", 1));
         env.enableCheckpointing(10000, CheckpointingMode.EXACTLY_ONCE);
         env.registerType(CarAd.class);
-        final String pathname = params.get("pathname", "src/assets/cars.small.json");
+        final String pathname = params.get("pathname", "src/assets/cars.json");
 
         // stream from file
         KeyedStream<CarAd, Tuple> stream = env.readTextFile(pathname)
