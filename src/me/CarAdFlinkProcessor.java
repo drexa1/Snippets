@@ -24,7 +24,7 @@ import java.time.Instant;
 /**
  * @author diego.ruiz
  */
-public class CarAdProcessor {
+public class CarAdFlinkProcessor {
 
     public static void main(String args[]) throws Exception {
 
@@ -35,7 +35,7 @@ public class CarAdProcessor {
         env.getConfig().setParallelism(params.getInt("parallelism", 1));
         env.enableCheckpointing(10000, CheckpointingMode.EXACTLY_ONCE);
         env.registerType(CarAd.class);
-        final String pathname = params.get("pathname", "src/assets/cars.small.json");
+        final String pathname = params.get("pathname", "src/assets/cars.json");
 
         // stream from file
         KeyedStream<CarAd, Tuple> stream = env.readTextFile(pathname)
@@ -51,7 +51,6 @@ public class CarAdProcessor {
         // remove the duplicates
         stream.flatMap(new DedupFilterDismiss())
                 .rebalance()
-                .keyBy("model","region")
                 .process(new ProcessStatsFunction())
                 .addSink(new CarAdSink()).name("car-ads-dedup")
                 .setParallelism(env.getConfig().getParallelism());
@@ -166,5 +165,5 @@ class CarAdSink implements SinkFunction<CarAd> {
 };
 
 class JobStats {
-    public Instant startTime,endTime;
+    public Instant startTime, endTime;
 }
