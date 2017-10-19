@@ -42,7 +42,7 @@ public class WorkerDispatcher {
         this.workers.remove(id);
     }
 
-    public class Worker {
+    class Worker {
 
         private int id;
         private ArrayList<String> tasks = new ArrayList<String>();
