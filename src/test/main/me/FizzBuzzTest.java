@@ -1,4 +1,4 @@
-package me;
+package main.me;
 
 import me.FizzBuzz;
 import org.junit.Test;

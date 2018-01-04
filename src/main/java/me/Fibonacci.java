@@ -45,7 +45,7 @@ public class Fibonacci {
         return result;
     }
 
-    private static Map<Long, BigDecimal> iterMemo = new HashMap<Long, BigDecimal>();
+    private static Map<Long, BigDecimal> iterMemo = new HashMap<>();
     static {
         iterMemo.put(0L, BigDecimal.ZERO);
         iterMemo.put(1L, BigDecimal.ONE);

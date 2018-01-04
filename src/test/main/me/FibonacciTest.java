@@ -1,5 +1,6 @@
-package me;
+package main.me;
 
+import me.Fibonacci;
 import org.junit.Test;
 import org.mockito.Spy;
 

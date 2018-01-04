@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 public class SkyscannerEmployees {
 
     //private static BinaryTree<String> bt = new Solution.BinaryTree<>();
-    private static List<String[]> relations = new ArrayList<String[]>();
+    private static List<String[]> relations = new ArrayList<>();
 
-    private static TreeMap<String, Integer> tree = new TreeMap<String, Integer>();
+    private static TreeMap<String, Integer> tree = new TreeMap<>();
 
     public static void main(String[] args) {
 
@@ -32,7 +32,7 @@ public class SkyscannerEmployees {
 
     private static Set<String> getEmployeesFromLevel(Integer level) {
         return tree.entrySet().stream()
-                .filter(entry -> entry.getValue() == level)
+                .filter(entry -> entry.getValue().equals(level))
                 .map(entry -> entry.getKey())
                 .collect(Collectors.toSet());
     }

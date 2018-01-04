@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class MostSearched {
 
-    private static Map<String, Integer> citiesSearched = new HashMap<String, Integer>();
+    private static Map<String, Integer> citiesSearched = new HashMap<>();
 
     public static void main(String[] args) throws Exception{
         Scanner in = new Scanner(System.in);

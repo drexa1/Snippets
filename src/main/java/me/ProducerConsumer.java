@@ -12,6 +12,41 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 /**
  * Created by dr186049 on 6/2/2017.
  */
+public class ProducerConsumer {
+
+    private final int MAX_CAPACITY = 50;
+    private final BlockingQueue<String> queue = new ArrayBlockingQueue<>(MAX_CAPACITY);
+
+    private List<Producer> producers;
+    private List<Consumer> consumers;
+
+    public ProducerConsumer(List<Producer> producers, List<Consumer> consumers) {
+        for(Producer producer: producers) {
+            startProducer(producer);
+        }
+        for(Consumer consumer: consumers) {
+            startConsumer(consumer);
+        }
+    }
+
+    private void startProducer(Producer producer) {
+            new Thread(() -> {
+                String threadName = Thread.currentThread().getName();
+                System.out.println("Created new Producer " + threadName);
+                final AtomicInteger id = new AtomicInteger();
+                final Supplier<String> supplier = () -> "Item" + id.incrementAndGet();
+                producer.produce(supplier);
+            }).start();
+    }
+
+    private void startConsumer(Consumer consumer) {
+        new Thread(() -> {
+            String threadName = Thread.currentThread().getName();
+            System.out.println("Created new Consumer " + threadName);
+            consumer.consume();
+        }).start();
+    }
+}
 
 class Producer<T> {
     private String name;
@@ -54,41 +89,4 @@ class Consumer<T>{
             }
         }
     }
-}
-
-public class ProducerConsumer {
-
-    private final int MAX_CAPACITY = 50;
-    private final BlockingQueue<String> queue = new ArrayBlockingQueue<>(MAX_CAPACITY);
-
-    private List<Producer> producers;
-    private List<Consumer> consumers;
-
-    public ProducerConsumer(List<Producer> producers, List<Consumer> consumers) {
-        for(Producer producer: producers) {
-            startProducer(producer);
-        }
-        for(Consumer consumer: consumers) {
-            startConsumer(consumer);
-        }
-    }
-
-    private void startProducer(Producer producer) {
-            new Thread(() -> {
-                String threadName = Thread.currentThread().getName();
-                System.out.println("Created new Producer " + threadName);
-                final AtomicInteger id = new AtomicInteger();
-                final Supplier<String> supplier = () -> "Item" + id.incrementAndGet();
-                producer.produce(supplier);
-            }).start();
-    }
-
-    private void startConsumer(Consumer consumer) {
-        new Thread(() -> {
-            String threadName = Thread.currentThread().getName();
-            System.out.println("Created new Consumer " + threadName);
-            consumer.consume();
-        }).start();
-    }
-
 }

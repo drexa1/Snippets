@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class WorkerDispatcher {
 
-    private HashMap<Integer, Worker> workers = new HashMap<Integer, Worker>();
+    private HashMap<Integer, Worker> workers = new HashMap<>();
 
     public static void main(String[] args) {
 
@@ -45,7 +45,7 @@ public class WorkerDispatcher {
     class Worker {
 
         private int id;
-        private ArrayList<String> tasks = new ArrayList<String>();
+        private ArrayList<String> tasks = new ArrayList<>();
 
         public Worker(int id) {
             this.id = id;
